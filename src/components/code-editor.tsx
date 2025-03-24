@@ -3,8 +3,6 @@
 import type React from "react"
 
 import { useRef, useEffect } from "react"
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
-import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism"
 
 interface CodeEditorProps {
   value: string
@@ -16,22 +14,6 @@ interface CodeEditorProps {
 export function CodeEditor({ value, onChange, language, disablePaste = false }: CodeEditorProps) {
   const editorRef = useRef<HTMLTextAreaElement>(null)
   const preRef = useRef<HTMLPreElement>(null)
-
-  // Map language names to prism supported languages
-  const languageMap: Record<string, string> = {
-    python: "python",
-    javascript: "javascript",
-    java: "java",
-    "c++": "cpp",
-    "c#": "csharp",
-    php: "php",
-    ruby: "ruby",
-    go: "go",
-    swift: "swift",
-    rust: "rust",
-  }
-
-  const syntaxLanguage = languageMap[language.toLowerCase()] || "text"
 
   // Sync scroll between textarea and syntax highlighter
   useEffect(() => {
@@ -77,6 +59,24 @@ export function CodeEditor({ value, onChange, language, disablePaste = false }: 
     }
   }
 
+  // Map language names to CSS classes for syntax highlighting
+  const getLanguageClass = (lang: string): string => {
+    const languageMap: Record<string, string> = {
+      python: "language-python",
+      javascript: "language-javascript",
+      java: "language-java",
+      cpp: "language-cpp",
+      csharp: "language-csharp",
+      php: "language-php",
+      ruby: "language-ruby",
+      go: "language-go",
+      swift: "language-swift",
+      rust: "language-rust",
+    }
+
+    return languageMap[lang.toLowerCase()] || "language-text"
+  }
+
   return (
     <div className="relative border border-green-700 rounded overflow-hidden">
       <textarea
@@ -93,18 +93,7 @@ export function CodeEditor({ value, onChange, language, disablePaste = false }: 
         }}
       />
       <pre ref={preRef} className="overflow-hidden p-0 m-0" style={{ minHeight: "300px" }}>
-        <SyntaxHighlighter
-          language={syntaxLanguage}
-          style={atomDark}
-          customStyle={{
-            backgroundColor: "#0a0a0a",
-            padding: "1rem",
-            minHeight: "300px",
-            margin: 0,
-          }}
-        >
-          {value || " "}
-        </SyntaxHighlighter>
+        <code className={`block p-4 text-green-500 ${getLanguageClass(language)}`}>{value || " "}</code>
       </pre>
     </div>
   )

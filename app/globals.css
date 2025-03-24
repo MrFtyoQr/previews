@@ -96,3 +96,40 @@ body {
   }
 }
 
+/* Syntax highlighting styles */
+code {
+  font-family: "Courier New", monospace;
+  tab-size: 2;
+}
+
+code .keyword,
+code .function,
+code .operator {
+  color: #f92672;
+}
+
+code .string {
+  color: #a6e22e;
+}
+
+code .number {
+  color: #ae81ff;
+}
+
+code .comment {
+  color: #75715e;
+}
+
+/* Language-specific syntax highlighting */
+.language-python .keyword {
+  color: #66d9ef;
+}
+
+.language-javascript .keyword {
+  color: #f92672;
+}
+
+.language-javascript .function {
+  color: #a6e22e;
+}
+

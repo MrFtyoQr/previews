@@ -19,7 +19,7 @@ interface WordSearchGridProps {
 export function WordSearchGrid({ wordSearchString, answers, onWordFound }: WordSearchGridProps) {
   const [grid, setGrid] = useState<string[][]>([])
   const [selectionStart, setSelectionStart] = useState<[number, number] | null>(null)
-  const [selectionEnd, setSelectionEnd] = useState<[number, number] | null>(null)
+  const [currentEnd, setCurrentEnd] = useState<[number, number] | null>(null)
   const [selectedCells, setSelectedCells] = useState<Set<string>>(new Set())
   const [foundWords, setFoundWords] = useState<Set<string>>(new Set())
   const [isSelecting, setIsSelecting] = useState(false)
@@ -33,7 +33,7 @@ export function WordSearchGrid({ wordSearchString, answers, onWordFound }: WordS
 
       // Reset selections and found words when grid changes
       setSelectionStart(null)
-      setSelectionEnd(null)
+      setCurrentEnd(null)
       setSelectedCells(new Set())
       setFoundWords(new Set())
     }
@@ -45,12 +45,12 @@ export function WordSearchGrid({ wordSearchString, answers, onWordFound }: WordS
       // Start selection
       setIsSelecting(true)
       setSelectionStart([rowIndex, colIndex])
-      setSelectionEnd(null)
+      setCurrentEnd(null)
       setSelectedCells(new Set([`${rowIndex}-${colIndex}`]))
     } else {
       // End selection
       setIsSelecting(false)
-      setSelectionEnd([rowIndex, colIndex])
+      setCurrentEnd([rowIndex, colIndex])
 
       // Check if the selection matches any word
       if (selectionStart) {

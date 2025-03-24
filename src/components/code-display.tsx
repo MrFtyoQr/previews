@@ -1,5 +1,4 @@
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
-import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism"
+"use client"
 
 interface CodeDisplayProps {
   code: string
@@ -8,45 +7,38 @@ interface CodeDisplayProps {
 }
 
 export function CodeDisplay({ code, language, explanation }: CodeDisplayProps) {
-  // Map language names to prism supported languages
-  const languageMap: Record<string, string> = {
-    python: "python",
-    javascript: "javascript",
-    java: "java",
-    "c++": "cpp",
-    "c#": "csharp",
-    php: "php",
-    ruby: "ruby",
-    go: "go",
-    swift: "swift",
-    rust: "rust",
-  }
+  // Map language names to CSS classes for syntax highlighting
+  const getLanguageClass = (lang: string): string => {
+    const languageMap: Record<string, string> = {
+      python: "language-python",
+      javascript: "language-javascript",
+      java: "language-java",
+      cpp: "language-cpp",
+      csharp: "language-csharp",
+      php: "language-php",
+      ruby: "language-ruby",
+      go: "language-go",
+      swift: "language-swift",
+      rust: "language-rust",
+    }
 
-  const syntaxLanguage = languageMap[language.toLowerCase()] || "text"
+    return languageMap[lang.toLowerCase()] || "language-text"
+  }
 
   return (
     <div>
       <h3 className="text-lg font-bold mb-2">Código:</h3>
-      <div className="rounded overflow-hidden mb-4">
-        <SyntaxHighlighter
-          language={syntaxLanguage}
-          style={atomDark}
-          customStyle={{
-            backgroundColor: "#0a0a0a",
-            padding: "1rem",
-            borderRadius: "0.25rem",
-            border: "1px solid #2F855A",
-          }}
-        >
-          {code}
-        </SyntaxHighlighter>
+      <div className="rounded overflow-hidden mb-4 bg-gray-900 border border-green-700">
+        <pre className="p-4 overflow-x-auto">
+          <code className={`block text-green-500 ${getLanguageClass(language)}`}>{code}</code>
+        </pre>
       </div>
 
       {explanation && (
         <div className="mt-4">
           <h3 className="text-lg font-bold mb-2">Explicación:</h3>
           <div className="bg-gray-900 p-4 rounded border border-green-700">
-            <p className="whitespace-pre-line">{explanation}</p>
+            <p className="whitespace-pre-line text-green-500">{explanation}</p>
           </div>
         </div>
       )}

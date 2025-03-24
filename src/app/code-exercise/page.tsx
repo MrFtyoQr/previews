@@ -50,6 +50,7 @@ export default function CodeExercisePage() {
   }
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     fetchCode()
   }, [])
 
